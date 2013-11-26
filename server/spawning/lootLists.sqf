@@ -101,6 +101,7 @@ milLootR =
 	["launch_Titan_F"],
 	["launch_Titan_short_F"],
 	// Magazines
+	["150Rnd_762x51_Box"],				// Zafir Ammunition
 	["ClaymoreDirectionalMine_Remote_Mag"],
 	["SatchelCharge_Remote_Mag"],
 	["SLAMDirectionalMine_Wire_Mag"],
