@@ -1,17 +1,11 @@
-*Wasteland.Stratis* by Team Wasteland!
-===================
+AusWL.Altis
+===========
 
-ArmA 3 Wasteland is a harsh survival sandbox mission where 2 teams and independent players fight for survival.
+Wasteland Altis - Austerror
 
+This repository is the Austerror additions version of the A3Wasteland/ArmA3_Wasteland.Stratis mission by GoT, TPG, KoS, 404Games, and others.
 
-The mission is not ready yet, so for now it's just a placeholder :)
+Original A3Wasteland/ArmA3_Wasteland.Stratis mission available https://github.com/A3Wasteland
 
-
-*Team Wasteland* collaborators:
-
-       GoT - JoSchaap
-       TPG - AgentRev
-           - MercyfulFate
-       KoS - His_Shadow
-       KoS - Bewilderbeest
-       404 - Del1te
+Cheers,
+Austerror.

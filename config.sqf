@@ -10,33 +10,69 @@
 // Marker Name, Diameter, City Name
 cityList = compileFinal str
 [
-	["Town_1",200,"Air Station Mike-28"],
-	["Town_2",100,"Agios Loannis"],
-	["Town_3",100,"Agios Cephas"],
-	["Town_4",200,"Girna"],			
-	["Town_5",200,"Camp Tempest"],
-	["Town_6",300,"Stratis Airbase Town"],
-	["Town_7",250,"Stratis Airbase Runway"],
-	["Town_8",350,"Agia Marina"],
-	["Town_9",250,"Kill Farm"],
-	["Town_10",200,"Camp Rogain"],
-	["Town_11",230,"Kamino Firing Range"],
-	["Town_12",240,"Camp Maxwell"],
-	["Town_13",150,"ol-Kamino"],
-	["Town_14",15,"Isla Pythos"],  // do not increase radius, else vehicles and objects will spawn on the island!
-	["Town_15",100,"Baldy Barracks"],
-	["Town_16",175,"ol-Keiros"],			
-	["Town_17",175,"Tsoukalia"],
-	["Town_18",100,"LZ Connor"],
-	["Town_19",180,"Playa-del-Stragos"],
-	["Town_20",250,"ol-Jay"]
-];
-
-militarylist = compileFinal str
-[
-	["milSpawn_1"],
-	["milSpawn_2"],
-	["milSpawn_3"]
+	["Town_1", 400, "Kavala"],
+	["Town_2", 300, "Agios Dionysios"],
+	["Town_3", 150, "Abdera"],
+	["Town_4", 250, "Athira"],
+	["Town_5", 200, "Telos"],
+	["Town_6", 200, "Sofia"],
+	["Town_7", 200, "Paros"],
+	["Town_8", 300, "Pyrgos"],
+	["Town_9", 150, "Selakano"],
+	["Town_10", 200, "Vikos"],
+	["Town_11", 250, "Zaros"],
+	["Town_12", 250, "Neochori"],
+	["Town_13", 250, "Aggelochori"],
+	["Town_14", 200, "Panochori"],
+	["Town_15", 200, "Charkia"],
+	["Town_16", 150, "Chalkeia"],
+	["Town_17", 150, "Oreokastro"],
+	["Town_18", 100, "Dump"],
+	["Town_19", 125, "Negades"],
+	["Town_20", 100, "Frini"],
+	["Town_21", 100, "Thronos"],
+	["Town_22", 50, "Faros"],
+	["Town_23", 100, "Krya Nera"],
+	["Town_24", 200, "Gelati"],
+	["Town_25", 150, "Ifestiona"],
+	["Town_26", 50, "Cap Zefyris"],
+	["Town_27", 150, "Kalithea"],
+	["Town_28", 150, "Ioannina"],
+	["Town_29", 250, "Pefkas Bay"],
+	["Town_30", 250, "Molos"],
+	["Town_31", 200, "Gatolia"],
+	["Town_32", 100, "Power Plant"],
+	["Town_33", 150, "Cap Kategidis"],
+	["Town_34", 200, "Dorida"],
+	["Town_35", 250, "Aktinarki"],
+	["Town_36", 50, "Surf Club"],
+	["Town_37", 300, "Panagia"],
+	["Town_38", 150, "Feres"],
+	["Town_39", 100, "Trachia"],
+	["Town_40", 50, "Magos"],
+	["Town_41", 100, "Agia Triada"],
+	["Town_42", 100, "Gori"],
+	["Town_43", 250, "Agios Konstantinos"],
+	["Town_44", 100, "Orino"],
+	["Town_45", 300, "Gravia"],
+	["Town_46", 200, "Kalochori"],
+	["Town_47", 200, "Rodopoli"],
+	["Town_48", 150, "Anthrakia"],
+	["Town_49", 200, "Power Plant"],
+	["Town_50", 150, "Factory"],
+	["Town_51", 150, "Kore"],
+	["Town_52", 100, "Topolia"],
+	["Town_53", 200, "Lakka"],
+	["Town_54", 150, "Stavros"],
+	["Town_55", 100, "Alikampos"],
+	["Town_56", 50, "Agia Stemma"],
+	["Town_57", 100, "Factory"],
+	["Town_58", 200, "Poliakko"],
+	["Town_59", 100, "Katalaki"],
+	["Town_60", 150, "Therisa"],
+	["Town_61", 200, "Nari"],
+	["Town_62", 100, "Edessai"],
+	["Town_63", 100, "Athanos"]
 ];
 
 cityLocations = [];
@@ -51,15 +87,6 @@ config_refuel_amounts = compileFinal str
 	["Tank", 0.10],
 	["Air", 0.10]
 ];
-
-// Is player saving enabled?
-config_player_saving_enabled = compileFinal "0";
-
-// Can players get extra in-game cash at spawn by donating?
-config_player_donations_enabled = compileFinal "0";
-
-// How much do players spawn with?
-config_initial_spawn_money = compileFinal "100";
 
 // Territory system definitions. See territory/README.md for more details.
 //
