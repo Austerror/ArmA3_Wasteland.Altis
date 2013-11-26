@@ -53,7 +53,7 @@ mf_survival_handle1 = [] spawn {
 				player setDamage _health;
 			};
 		};
-		if ((hungerLevel > 90) && (thirstLevel > 90) && ((damage player) <= .75) && ((damage player) > 0)) then {
+		if ((hungerLevel > 95) && (thirstLevel > 95) && ((damage player) <= .25) && ((damage player) > 0)) then {
 			_health = (damage player) - (HEALTH_DELTA / 2);
 			player setDamage _health;
 		};

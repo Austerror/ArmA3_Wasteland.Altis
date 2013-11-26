@@ -62,7 +62,7 @@ if(!isNull(pvar_PlayerTeamKiller)) then {
 	publicVariable "publicVar_teamkillMessage";
 };
 
-if (side _killer == INDEPENDENT && {side _player == INDEPENDENT} && {_killer != _player} && {vehicle _killer != vehicle _player}) then
+if ({_killer != _player} && {vehicle _killer != vehicle _player}) then
 {
 	requestCompensateNegativeScore = _killer;
 	publicVariableServer "requestCompensateNegativeScore";

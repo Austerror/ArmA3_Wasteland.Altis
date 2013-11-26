@@ -8,7 +8,7 @@
 
 [[player, _class, currentOwnerName, _requestKey], "spawnStoreObject", false, false] call TPG_fnc_MP;
 
-private ["_requestTime", "_object"];
+private "_requestTime";
 _requestTime = time;
 hint "Awaiting server response...";
 
@@ -18,44 +18,21 @@ hint "Awaiting server response...";
 	storePurchaseHandle = nil; // To allow purchasing more stuff in the meanwhile
 };
 
-waitUntil 
-{
-    sleep 0.5;
-    if (time >= _requestTime + 15) exitWith {true}; // 15s timeout
-    _object = player getVariable _requestKey;
-    if (!isNil "_object") exitWith {true};
-    false
-};
+waitUntil {!isNil _requestKey || {time >= _requestTime + 15}}; // 15s timeout
 
-if (isNil "_object") then
-{
-    hint "_object is nil";
-};
-sleep 5;
-
-
-
-if (isNil "_object" || {isNull objectFromNetId (_object)}) then
+if (isNil _requestKey || {isNull objectFromNetId (missionNamespace getVariable _requestKey)}) then
 {
 	_requestKey spawn // If the object somehow spawns after the timeout, delete it
 	{
 		private ["_requestKey", "_postTimeout", "_object"];
 		_requestKey = _this;
 		_postTimeout = time;
-        
-        waitUntil 
-        {
-            sleep 0.5;
-            if (time >= _postTimeout + 60) exitWith {true}; // 15s timeout
-            _object = player getVariable _requestKey;
-            if (!isNil "_object") exitWith {true};
-            false
-        };
+		waitUntil {!isNil _requestKey || {time >= _postTimeout + 60}}; // 60s post-timeout
 		
-		if (!isNil _object) then
+		if (!isNil _requestKey) then
 		{
-			deleteVehicle objectFromNetId (_object);
-            _player setVariable [_requestKey, nil, true];
+			deleteVehicle objectFromNetId (missionNamespace getVariable _requestKey);
+			missionNamespace setVariable [_requestKey, nil];
 		};
 	};
 	
@@ -64,5 +41,4 @@ if (isNil "_object" || {isNull objectFromNetId (_object)}) then
 else
 {
 	[_itemText] call _showItemSpawnedOutsideMessage;
-    player setVariable [_requestKey, nil, true];
 };

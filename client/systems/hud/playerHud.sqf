@@ -3,7 +3,7 @@
 //	@file Author: [404] Deadbeat, [GoT] JoSchaap, [KoS] Bewilderbeest
 //	@file Created: 11/09/2012 04:23
 //	@file Args:
-
+sleep 5;
 #define hud_status_idc 3600
 #define hud_vehicle_idc 3601
 #define hud_activity_icon_idc 3602

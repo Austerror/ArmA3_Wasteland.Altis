@@ -91,7 +91,6 @@ _player addWeapon "hgun_P07_F";
 _player addMagazine "16Rnd_9x21_Mag";
 _player addItem "FirstAidKit";
 _player selectWeapon "hgun_P07_F";
-_player addrating 9999999;
 
 //sleep 2;
 thirstLevel = 100;

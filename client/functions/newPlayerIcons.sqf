@@ -19,16 +19,8 @@ FZF_IC_Icons =
 {
 	private ["_units", "_groupOnly", "_index", "_HUD_ICON"];
 	
-	if (playerSide == INDEPENDENT) then
-	{
-		_units = units player;
-		_groupOnly = true;
-	}
-	else
-	{
-		_units = allUnits;
-		_groupOnly = false;
-	};
+	_units = units player;
+	_groupOnly = true;
 	
 	_index = 0;
 	

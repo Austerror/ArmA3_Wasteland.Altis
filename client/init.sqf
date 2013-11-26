@@ -6,7 +6,7 @@
 
 if (isDedicated) exitWith {};
 
-[] execVM "client\functions\bannedNames.sqf";
+//[] execVM "client\functions\bannedNames.sqf";
 
 showPlayerIcons = true;
 mutexScriptInProgress = false;
@@ -28,7 +28,7 @@ removeAllWeapons player;
 player switchMove "";
 
 //Stop people being civ's.
-if(!(playerSide in [BLUFOR, OPFOR, INDEPENDENT, sideEnemy])) then {
+if(!(playerSide in [WEST])) then {
 	endMission "LOSER";
 };
 
@@ -42,47 +42,25 @@ player call compile preprocessFileLineNumbers "client\functions\clientCompile.sq
 
 //Player setup
 player call playerSetup;
-
+//waitUntil {scriptDone _playerSetupScript};
 // Player saving - Load from iniDB
-if ((call config_player_saving_enabled) == 1) then {
-	positionLoaded = 0;
-	donationMoneyLoaded = 0; // used only if config_player_donations_enabled is set
 
-	[] execVM "persistence\players\c_serverSaveRelay.sqf";
-	waitUntil {!isNil "fn_SaveToServer"};
-	[] execVM "persistence\players\c_playerDBSetup.sqf";
-	waitUntil {!isNil "statFunctionsLoaded"};
-	[] execVM "persistence\players\c_loadAccount.sqf";
+positionLoaded = 0;
+[] execVM "persistence\players\c_serverSaveRelay.sqf";
+waitUntil {!isNil "fn_SaveToServer"};
+[] execVM "persistence\players\c_playerDBSetup.sqf";
+waitUntil {!isNil "statFunctionsLoaded"};
+_loadPlayerAccount = [] execVM "persistence\players\c_loadAccount.sqf";
+waitUntil {scriptDone _loadPlayerAccount};
+waitUntil {positionLoaded == 1};
 
-	if ((call config_player_donations_enabled) == 1) then {
-		// If the server has configured donation money, load that from the DB
-		waitUntil {donationMoneyLoaded == 1};
-		_donationMoney = player getVariable ["donationMoney", 0];
-		if(_donationMoney > 0) then {player globalChat format["Thank you for your donation. You will have $%1 extra cash on spawn", _donationMoney];};
-	};
-
-	// Deal with money here
-	// If there are server donations, bump up the amount players spawn with
-	_baseMoney = (call config_initial_spawn_money);
-	if ((call config_player_donations_enabled) == 1) then {
-		_donationMoney = player getVariable ["donationMoney", 0];
-		diag_log format["Player starting with $%1 (%2 + %3)", _baseMoney + _donationMoney, _baseMoney, _donationMoney];
-		player setVariable["cmoney",_baseMoney + _donationMoney,true];
-	} else {
-		diag_log format["Player starting with $%1", _baseMoney];
-		player setVariable["cmoney",_baseMoney,true];
-	};
-
-	waitUntil {positionLoaded == 1};
-} else {
-	diag_log format["Client has no player save functionality"];
-};
+// iniDB stuff end
 
 // Territory system enabled?
-if (count (call config_territory_markers) > 0) then {
-	territoryActivityHandler = "territory\client\territoryActivityHandler.sqf" call mf_compile;
-	[] execVM "territory\client\createCaptureTriggers.sqf";
-};
+//if (count (call config_territory_markers) > 0) then {
+//	territoryActivityHandler = "territory\client\territoryActivityHandler.sqf" call mf_compile;
+//	[] execVM "territory\client\createCaptureTriggers.sqf";
+//};
 
 // Find out if the player has been moved by the persistence system
 _playerWasMoved = player getVariable ["playerWasMoved", 0];
@@ -95,25 +73,38 @@ player addEventHandler ["Killed", { _this spawn onKilled }];
 //Setup player menu scroll action.
 [] execVM "client\clientEvents\onMouseWheel.sqf";
 
-//Setup Key Handler
-waituntil {!(IsNull (findDisplay 46))};
-(findDisplay 46) displaySetEventHandler ["KeyDown", "_this call onKeyPress"];
-
+// Taken from commented out block below
 "currentDate" addPublicVariableEventHandler {[] call timeSync};
 "messageSystem" addPublicVariableEventHandler {[] call serverMessage};
-"clientMissionMarkers" addPublicVariableEventHandler {[] call updateMissionsMarkers};
-"clientRadarMarkers" addPublicVariableEventHandler {[] call updateRadarMarkers};
-"pvar_teamKillList" addPublicVariableEventHandler {[] call updateTeamKiller};
-"publicVar_teamkillMessage" addPublicVariableEventHandler {if (local (_this select 1)) then { [] spawn teamkillMessage }};
-"compensateNegativeScore" addPublicVariableEventHandler { (_this select 1) call removeNegativeScore };
 
-//client Executes
 [] execVM "client\functions\initSurvival.sqf";
 [] execVM "client\systems\hud\playerHud.sqf";
+
+// If we've got a position from the player save system, don't go through playerSpawn
+if (_playerWasMoved == 0) then {
+	thirstLevel = 100;
+	hungerLevel = 100;
+	true spawn playerSpawn;
+} else {
+	player switchMove "";
+};
+// ************************************
+// Start Player Saves.
+[] execVM "server\functions\playerSaves.sqf";
+player allowDamage true;
+// *******************
+// Prevent quick logging
+[] execVM "custom\preventLog.sqf";
+//**********************
+//*********Setup Key Handler
+waituntil {!(IsNull (findDisplay 46))};
+(findDisplay 46) displaySetEventHandler ["KeyDown", "_this call onKeyPress"];
+// *************************
+"clientMissionMarkers" addPublicVariableEventHandler {[] call updateMissionsMarkers};
+"clientRadarMarkers" addPublicVariableEventHandler {[] call updateRadarMarkers};
+"compensateNegativeScore" addPublicVariableEventHandler { (_this select 1) call removeNegativeScore };
+//client Executes
 [] execVM "client\functions\createTownMarkers.sqf";
-[] execVM "client\functions\createGunStoreMarkers.sqf";
-[] execVM "client\functions\createGeneralStoreMarkers.sqf";
-[] execVM "client\functions\createVehicleStoreMarkers.sqf";
 [] execVM "client\functions\playerTags.sqf";
 [] execVM "client\functions\groupTags.sqf";
 [] call updateMissionsMarkers;
@@ -122,14 +113,6 @@ if (isNil "FZF_IC_INIT") then
 {
 	call compile preprocessFileLineNumbers "client\functions\newPlayerIcons.sqf";
 };
-
-// If we've got a position from the player save system, don't go through playerSpawn
-if (_playerWasMoved == 0) then {
-	true spawn playerSpawn;
-} else {
-	player switchMove "AmovPpneMstpSnonWnonDnon";
-};
-
 [] spawn FZF_IC_INIT;
 
 {
@@ -139,4 +122,14 @@ if (_playerWasMoved == 0) then {
 	};
 } forEach playableUnits;
 
+player allowDamage true;
 [] execVM "addons\fpsFix\vehicleManager.sqf";
+/*************************************************************************************
+"pvar_teamKillList" addPublicVariableEventHandler {[] call updateTeamKiller};
+"publicVar_teamkillMessage" addPublicVariableEventHandler {if (local (_this select 1)) then { [] spawn teamkillMessage }};
+
+//waitUntil {playerSetupComplete == true};
+[] execVM "client\functions\createGunStoreMarkers.sqf";
+[] execVM "client\functions\createGeneralStoreMarkers.sqf";
+[] execVM "client\functions\createVehicleStoreMarkers.sqf";
+*************************************************************************************/
