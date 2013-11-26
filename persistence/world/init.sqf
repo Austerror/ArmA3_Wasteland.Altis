@@ -11,5 +11,4 @@
 
 if(!isServer) exitWith {};
 
-execVM "persistence\world\oSave.sqf";
 execVM "persistence\world\oLoad.sqf";

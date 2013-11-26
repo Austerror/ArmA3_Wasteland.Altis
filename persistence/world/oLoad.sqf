@@ -15,26 +15,25 @@ for "_i" from 0 to (_objectscount - 1) do
 	_pos = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "pos", "ARRAY"] call iniDB_read;
 	_dir = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "dir", "ARRAY"] call iniDB_read;
 	_supplyleft = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "supplyleft", "NUMBER"] call iniDB_read;
-	// _weapons = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "weapons", "ARRAY"] call iniDB_read;
-	// _magazines = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "magazines", "ARRAY"] call iniDB_read;
-	
-	if (!isNil "_objSaveName" && !isNil "_class" && !isNil "_pos" && !isNil "_dir" && !isNil "_supplyleft") then 
+	_weapons = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "weapons", "ARRAY"] call iniDB_read;
+	_magazines = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "magazines", "ARRAY"] call iniDB_read;
+	_ownerId = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "owner", "STRING"] call iniDB_read;
+	if(!isNil "_objSaveName" && !isNil "_class" && !isNil "_pos" && !isNil "_dir" && !isNil "_supplyleft" && (_ownerId != "")) then 
 	{
 
 		_obj = createVehicle [_class,_pos, [], 0, "CAN COLLIDE"];
 		_obj setPosASL _pos;
 		_obj setVectorDirAndUp _dir;
 
-		if (_class == "Land_Sacks_goods_F") then 
+		if(_class == "Land_Sacks_goods_F") then 
 		{
 			_obj setVariable["food",_supplyleft,true];
 		};
 
-		if (_class == "Land_WaterBarrel_F") then 
+		if(_class == "Land_WaterBarrel_F") then 
 		{
 			_obj setVariable["water",_supplyleft,true];
 		};
-		
 		// fix for rissen/sunken objects
 		// seems not to be needed here, so disabled again
 // 		_adjustPOS=-1;
@@ -58,15 +57,16 @@ for "_i" from 0 to (_objectscount - 1) do
 		clearMagazineCargoGlobal _obj;
 
 		// disabled because i dont want to load contents just base parts
-		// for [{_ii = 0}, {_ii < (count (_weapons select 0))}, {_ii = _ii + 1}] do {
-			// _obj addWeaponCargoGlobal [(_weapons select 0) select _ii, (_weapons select 1) select _ii];
-		// };
+		for[{_ii = 0}, {_ii < (count (_weapons select 0))}, {_ii = _ii + 1}] do {
+			_obj addWeaponCargoGlobal [(_weapons select 0) select _ii, (_weapons select 1) select _ii];
+		};
 
-		// for [{_ii = 0}, {_ii < (count (_magazines select 0))}, {_ii = _ii + 1}] do {
-		// _obj addMagazineCargoGlobal [(_magazines select 0) select _ii, (_magazines select 1) select _ii];
-		// };
-		// _obj setVariable ["objectLocked", true, true]; //force lock
+		for[{_ii = 0}, {_ii < (count (_magazines select 0))}, {_ii = _ii + 1}] do {
+		_obj addMagazineCargoGlobal [(_magazines select 0) select _ii, (_magazines select 1) select _ii];
+		};
+		_obj setVariable ["objectLocked", true, true]; //force lock
+		_obj setVariable ["ownerId", _ownerId, true]; // Set owner id
 	};
 };
-
-diag_log format["GoT Wasteland - baseSaving loaded %1 parts from iniDB", _objectscount];
+	diag_log format["GoT Wasteland - baseSaving loaded %1 parts from iniDB", _objectscount];
+	execVM "persistence\world\oSave.sqf";
