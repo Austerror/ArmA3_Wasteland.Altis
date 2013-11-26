@@ -10,7 +10,7 @@ private ["_delQtyB", "_delQtyO", "_runInt", "_deathTime"];
 // configure cleanup below this line
 
 _runInt = 5*60;		// Interval to run the cleanup 
-_deathTime = 15*60;	// Time a body has to have been dead before cleaning it up
+_deathTime = 60*60;	// Time a body has to have been dead before cleaning it up
 
 // you should not change code below this line :)
 
@@ -22,7 +22,7 @@ while { true } do
 	_delQtyO = 0;  // reset object count
 	
 	{
-		if (_x getVariable ["processedDeath", diag_tickTime] < diag_tickTime - _deathTime) then
+		if ((_x getVariable ["processedDeath", diag_tickTime] < diag_tickTime - _deathTime) && (_x getVariable "objectLocked" != true)) then
 		{
 			deleteVehicle _x;
 			_delQtyB = _delQtyB + 1;

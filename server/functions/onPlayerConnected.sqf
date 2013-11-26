@@ -17,4 +17,4 @@ _name = _this select 1;
 if (_name == '__SERVER__') exitWith { };
 
 // Hook for territory system
-if (count (call config_territory_markers) > 0) then { [] execVM "territory\client\updateConnectingClients.sqf"; };
+//if (count (call config_territory_markers) > 0) then { [] execVM "territory\client\updateConnectingClients.sqf"; };

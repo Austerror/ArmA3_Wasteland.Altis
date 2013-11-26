@@ -40,7 +40,7 @@ _sbox setVariable ["R3F_LOG_disabled", true, true];
 _hint = parseText format ["<t align='center' color='%2' shadow='2' size='1.75'>Side Objective</t><br/><t align='center' color='%2'>------------------------------</t><br/><t align='center' color='%3' size='1.25'>%1</t><br/><t align='center' color='%3'>Sunken supplies have been spotted in the ocean near the marker, and are heavily guarded. Diving gear and an underwater weapon are recommended.</t>", _missionType,  sideMissionColor, subTextColor];
 [_hint] call hintBroadcast;
 
-_CivGrpS = createGroup civilian;
+_CivGrpS = createGroup east;
 [_CivGrpS,_randomPos] spawn createSmallDivers;
 
 diag_log format["WASTELAND SERVER - Side Mission Waiting to be Finished: %1",_missionType];

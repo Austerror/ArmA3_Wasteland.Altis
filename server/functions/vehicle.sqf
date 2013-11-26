@@ -50,10 +50,11 @@ if (!isServer) exitWith {};
 
 // Define variables
 _unit = _this select 0;
+_isLocked = _unit getVariable "objectLocked";
 _delay = if (count _this > 1) then {_this select 1} else {30};
-_deserted = if (count _this > 2) then {_this select 2} else {120};
-_proxyExtra = if (count _this > 3) then {_this select 3} else {240};
-_proxyDistance = if (count _this > 4) then {_this select 4} else {200};
+_deserted = if (count _this > 2) then {_this select 2} else {0};
+_proxyExtra = if (count _this > 3) then {_this select 3} else {0};
+_proxyDistance = if (count _this > 4) then {_this select 4} else {0};
 _respawns = if (count _this > 5) then {_this select 5} else {0};
 _explode = if (count _this > 6) then {_this select 6} else {false};
 _static = if (count _this > 7) then {_this select 7} else {false};
@@ -140,7 +141,9 @@ while {_run} do
 	   {getPosASL _unit distance _position > 10 || _unit getVariable ["itemTakenFromVehicle", false]} &&
 	   {{alive _unit} count crew _unit == 0} &&
 	   {isNull (_unit getVariable ["R3F_LOG_est_transporte_par", objNull])} && 
-	   {isNull (_unit getVariable ["R3F_LOG_est_deplace_par", objNull])}) then 
+	   {isNull (_unit getVariable ["R3F_LOG_est_deplace_par", objNull])} &&
+	   {(_unit getVariable "objectLocked") != true}
+	   ) then 
 	{
 		if (_desertedTimeout == 0) then {
 			_desertedTimeout = diag_tickTime + _deserted;

@@ -65,4 +65,5 @@ if (_vehicleType isKindOf "Offroad_01_armed_base_F") then
 if (_type > 1) then { _vehicle setVehicleAmmo (random 1.0) };
 
 _vehicle setDir (random 360);
+_vehicle setVariable ["objectLocked", false, true];  // Set the objectLocked variable so the check (abandoned vehicles) doesn't fail later on.
 [_vehicle] call randomWeapons;

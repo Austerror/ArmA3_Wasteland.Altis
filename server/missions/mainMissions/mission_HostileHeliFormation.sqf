@@ -33,7 +33,7 @@ if (A3W_missionsDifficulty == 1) then {
 	_heli3 = ["O_Heli_Light_02_F","B_Heli_Transport_01_F","B_Heli_Light_01_armed_F","B_Heli_Transport_01_camo_F"] call BIS_fnc_selectRandom;
 };
 
-_grouphf = createGroup civilian;
+_grouphf = createGroup east;
 
 _createVehicle = {
     private ["_type","_position","_direction","_grouphf","_vehicle","_soldier"];
@@ -83,9 +83,9 @@ _createVehicle = {
 };
 
 _vehicles = [];
-_vehicles set [0, [_heli1, [2436.24,847.9], 285, _grouphf] call _createVehicle];  // static value update when porting to different maps
-_vehicles set [1, [_heli2, [2418.8,828.152], 285, _grouphf] call _createVehicle];
-_vehicles set [2, [_heli3, [2401.98,872.439], 285, _grouphf] call _createVehicle];
+_vehicles set [0, [_heli1, [8436.93, 25250.8], 13, _grouphf] call _createVehicle];  // static value update when porting to different maps
+_vehicles set [1, [_heli2, [8458.97, 25134.8], 171, _grouphf] call _createVehicle];
+_vehicles set [2, [_heli3, [8476.16, 25254.1], 222, _grouphf] call _createVehicle];
 
 _leader = driver (_vehicles select 0);
 _grouphf selectLeader _leader;

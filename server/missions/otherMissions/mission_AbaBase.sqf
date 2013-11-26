@@ -73,7 +73,7 @@ _vehicleName = "Outpost";
 _hint = parseText format ["<t align='center' color='%3' shadow='2' size='1.75'>Main Objective</t><br/><t align='center' color='%3'>------------------------------</t><br/><t align='center' color='%4' size='1.25'>%1</t><br/><t align='center' color='%4'>A<t color='%3'> %2</t>, has been spotted near the marker go capture it.</t>", _missionType, _vehicleName, _mainTextColour, _subTextColour];
 [_hint] call hintBroadcast;
 
-_group = createGroup civilian;
+_group = createGroup east;
 [_group,_randomPos]execVM "server\missions\createUnits\largeGroup.sqf";
 [_group, _randomPos] call BIS_fnc_taskDefend;
 

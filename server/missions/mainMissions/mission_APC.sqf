@@ -83,7 +83,7 @@ _hint = parseText format
 ];
 [_hint] call hintBroadcast;
 
-_CivGrpM = createGroup civilian;
+_CivGrpM = createGroup east;
 [_CivGrpM,_randomPos] spawn createMidGroup;
 
 diag_log format["WASTELAND SERVER - Main Mission Waiting to be Finished: %1",_missionType];

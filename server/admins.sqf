@@ -2,45 +2,37 @@
 
 if (!isServer) exitWith {};
 
-if (loadFile (externalConfigFolder + "\admins.sqf") != "") then
-{
-	call compile preprocessFileLineNumbers (externalConfigFolder + "\admins.sqf");
-}
-else
-{
-	// Admin menu (U key) access levels
+// Admin menu (U key) access levels
 
-	/*******************************************************
-	 Player UID examples :
+/*******************************************************
+ Player UID examples :
 
-		"1234567887654321", // Meatwad
-		"8765432112345678", // Master Shake
-		"1234876543211234", // Frylock
-		"1337133713371337"  // Carl
+	"76561198071564585" // Menthol
 
-	 Important: Don't put a comma (,) at the end of the last one
-	********************************************************/
+ Important: Don't put a comma (,) at the end of the last one
+********************************************************/
 
-	// Low Administrators: manage & spectate players, remove hacked vehicles
-	lowAdmins = compileFinal str
-	[
-		// Put player UIDs here
-	];
+// Low Administrators: manage & spectate players, remove hacked vehicles
+lowAdmins = compileFinal str
+[
+	// Put player UIDs here
+];
 
-	// High Administrators: manage & spectate players, remove hacked vehicles, show player tags
-	highAdmins = compileFinal str
-	[
-		// Put player UIDs here
-	];
+// High Administrators: manage & spectate players, remove hacked vehicles, show player tags
+highAdmins = compileFinal str
+[
+	// Put player UIDs here
+];
 
-	// Server Owners: access to everything
-	serverOwners = compileFinal str
-	[
-		// Put player UIDs here
-	];
+// Server Owners: access to everything
+serverOwners = compileFinal str
+[
+	// Put player UIDs here
+	"76561198071564585",
+	"76561198088269235"
+];
 
-	/********************************************************/
-};
+/********************************************************/
 
 if (typeName lowAdmins == "ARRAY") then { lowAdmins = compileFinal str lowAdmins };
 if (typeName highAdmins == "ARRAY") then { highAdmins = compileFinal str highAdmins };

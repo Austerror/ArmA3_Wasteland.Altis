@@ -41,7 +41,7 @@ _box2 setVariable ["R3F_LOG_disabled", true, true];
 _hint = parseText format ["<t align='center' color='%2' shadow='2' size='1.75'>Side Objective</t><br/><t align='center' color='%2'>------------------------------</t><br/><t align='center' color='%3' size='1.25'>%1</t><br/><t align='center' color='%3'>A weapon cache has been spotted near the marker.</t>", _missionType,  sideMissionColor, subTextColor];
 [_hint] call hintBroadcast;
 
-_CivGrpM = createGroup civilian;
+_CivGrpM = createGroup east;
 [_CivGrpM,_randomPos] spawn createMidGroup;
 
 diag_log format["WASTELAND SERVER - Side Mission Waiting to be Finished: %1",_missionType];

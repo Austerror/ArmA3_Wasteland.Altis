@@ -38,7 +38,7 @@ _vehicle setspeedmode "normal";
 _vehicle forceSpeed 220;
 
 sleep 0.5;
-_grp = creategroup civilian;
+_grp = creategroup east;
 
 _pilot = _grp createunit ["Pilot_EP1",getmarkerpos "spawn2",[],0,"FORM"];
 _pilot moveindriver _vehicle;
