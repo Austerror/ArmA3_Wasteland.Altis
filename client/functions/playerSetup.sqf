@@ -8,7 +8,8 @@ _player setVariable ["BIS_noCoreConversations", true];
 _player allowDamage false;
 
 enableSentences false;
-//player globalchat "Clothing Arrays.";
+
+// # Setup Random Clothing Arrays ##########
 random_hatlist = 
 [
 	"H_Cap_blk",
@@ -40,38 +41,18 @@ random_uniformlist =
 	"U_C_WorkerCoveralls",
 	"U_Competitor"				// Viable
 ];
-//player globalchat "Removing Default Items.";
+
+// # Remove players default items ##########
 removeAllWeapons _player;
 removeUniform _player;
 removeVest _player;
 removeBackpack _player;
 removeHeadgear _player;
 removeGoggles _player;
-//player globalchat "Generating Random Clothing Items.";
-_uniform = random_uniformlist select (round (random ((count random_uniformlist) - 1)));
-_hat = random_hatlist select (round (random ((count random_hatlist) - 1)));
-//player globalchat format["Adding Random Clothing Items. Hat = %1, Uniform = %2.",_hat,_uniform];
-_player addUniform _uniform;
-_player addHeadgear _hat;
-//player globalchat "Rest of Player Setup.";
-_player addBackpack "B_AssaultPack_blk";
-
-// remove GPS (GPS is found as loot in buildings)
-sleep 0.1;
-//_player unAssignItem "ItemRadio";
-//_player removeItem "ItemRadio";
 _player unassignItem "ItemGPS";
 _player removeItem "ItemGPS";
-
 private "_nvgClass";
-switch (side _player) do
-{
-	// case OPFOR:       { _nvgClass = "NVGoggles_OPFOR" };
-	// case INDEPENDENT: { _nvgClass = "NVGoggles_INDEP" };
-	default           { _nvgClass = "NVGoggles" };
-};
-
-// # Remove NVGs #########
+_nvgClass = "NVGoggles";
 {
 	if (["NVGoggles", _x] call fn_findString != -1) then
 	{
@@ -79,13 +60,18 @@ switch (side _player) do
 		_player removeItem _x;
 	};
 } forEach assignedItems _player;
-// #######################
 
-// # Add NVGs ############
-// _player linkItem _nvgClass;
-// #######################
+// # Select Random Clothing ################
+_uniform = random_uniformlist select (round (random ((count random_uniformlist) - 1)));
+_hat = random_hatlist select (round (random ((count random_hatlist) - 1)));
 
-//_player addBackpack "B_AssaultPack_rgr";  // TODO: make this configurable for server admins!
+// # Add new default items to player #######
+_player addUniform _uniform;
+_player addHeadgear _hat;
+_player addBackpack "B_AssaultPack_blk";
+
+sleep 0.1;
+
 _player addMagazine "16Rnd_9x21_Mag";
 _player addWeapon "hgun_P07_F";
 _player addMagazine "16Rnd_9x21_Mag";
@@ -94,6 +80,8 @@ _player selectWeapon "hgun_P07_F";
 _player addrating 9999999;
 
 //sleep 2;
+
+// # Setup defualt player variables ########
 thirstLevel = 100;
 hungerLevel = 100;
 _player setVariable ["thirstLevel", 100, true];
