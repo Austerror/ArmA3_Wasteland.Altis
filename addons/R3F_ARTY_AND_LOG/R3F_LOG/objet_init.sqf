@@ -23,7 +23,7 @@ if (isNil "_est_desactive") then
 	_objet setVariable ["R3F_LOG_disabled", false];  //on altis its smarter to only enable deplacement on objects we WANT players to move so if it doesnt find an r3f tag, it disables r3f on the object
 };
 
-// Définition locale de la variable si elle n'est pas définie sur le réseau
+// Définition of the local variable if it is not defined in the network
 _est_transporte_par = _objet getVariable "R3F_LOG_est_transporte_par";
 if (isNil "_est_transporte_par") then
 {
@@ -37,7 +37,7 @@ if (isNil "_est_deplace_par") then
 	_objet setVariable ["R3F_LOG_est_deplace_par", objNull, false];
 };
 
-// Ne pas monter dans un véhicule qui est en cours de transport
+// Do not ride in a vehicle that is in transit
 _objet addEventHandler ["GetIn",
 {
 	if (_this select 2 == player) then

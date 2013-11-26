@@ -4,7 +4,10 @@
  * @param 0 le transporteur
  */
 
-private ["_transporteur", "_est_desactive", "_objets_charges"];
+private ["_transporteur", "_est_desactive", "_objets_charges", "_doLock", "_doUnlock"];
+
+_doLock = 0;
+_doUnlock = 1;
 
 _transporteur = _this select 0;
 
@@ -26,3 +29,7 @@ _transporteur addAction [("<img image='client\icons\r3f_loadin.paa' color='#06ef
 _transporteur addAction [("<img image='client\icons\r3f_loadin.paa' color='#06ef00'/> <t color='#06ef00'>" + STR_R3F_LOG_action_charger_selection + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\transporteur\charger_selection.sqf", nil, 6, true, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_charger_selection_valide"];
 
 _transporteur addAction [("<img image='client\icons\r3f_contents.paa' color='#ffff00'/> <t color='#ffff00'>" + STR_R3F_LOG_action_contenu_vehicule + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\transporteur\voir_contenu_vehicule.sqf", nil, 5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_contenu_vehicule_valide"];
+
+_transporteur addAction [("<img image='client\icons\r3f_lock.paa' color='#ff0000'/> <t color='#ff0000'>" + STR_LOCK_OBJECT + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\objet_deplacable\objectLockStateMachine.sqf", _doLock, -5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_contenu_vehicule_valide && Object_canLock"];
+
+_transporteur addAction [("<img image='client\icons\r3f_unlock.paa' color='#06ef00'/> <t color='#06ef00'>" + STR_UNLOCK_OBJECT + "</t>"), "addons\R3F_ARTY_AND_LOG\R3F_LOG\objet_deplacable\objectLockStateMachine.sqf", _doUnlock, -5, false, true, "", "R3F_LOG_objet_addAction == _target && R3F_LOG_action_contenu_vehicule_valide && !Object_canLock"];
