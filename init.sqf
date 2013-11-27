@@ -40,6 +40,7 @@ waitUntil {scriptDone _globalCompile};
 
 //init Wasteland Core
 [] execVM "config.sqf";
+[] execVM "briefing.sqf";
 
 if (X_Client) then
 {
