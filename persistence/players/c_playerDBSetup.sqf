@@ -28,6 +28,8 @@ applyPlayerDBValues =
 			if(_varName == 'Backpack') then { backpackLoaded = 1;};
 			if(_varName == 'Vest') then { vestLoaded = 1;};
 			if(_varName == 'Uniform') then { uniformLoaded = 1;};
+			if(_varName == 'HeadGear') then { headgearLoaded = 1;};
+			if(_varName == 'Goggles') then { gogglesLoaded = 1;};
 			if(_varName == 'Items') then { itemsLoaded = 1;};
 			if(_varName == 'Items') then { magazinesLoaded = 1;};
 		};
@@ -117,8 +119,8 @@ applyPlayerDBValues =
 		if(_varName == 'Uniform') then {removeUniform _player; _player addUniform _varValue; uniformLoaded = 1;};
 		if(_varName == 'Vest') then {removeVest _player; _player addVest _varValue; vestLoaded = 1;};
 		if(_varName == 'Backpack') then {removeBackpack _player; _player addBackpack _varValue; backpackLoaded = 1;};
-		if(_varName == 'HeadGear') then {removeHeadgear _player; _player addHeadgear _varValue;};
-		if(_varName == 'Goggles') then {_player addGoggles _varValue};
+		if(_varName == 'HeadGear') then {removeHeadgear _player; _player addHeadgear _varValue; headgearLoaded = 1};
+		if(_varName == 'Goggles') then {_player addGoggles _varValue; gogglesLoaded = 1};
 
 		//if(_varName == 'Stance') then {_player switchMove _varValue;};
 

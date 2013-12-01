@@ -25,11 +25,15 @@ player globalchat "Requesting Direction...";
 [_UID, _UID, "Uniform", "STRING"] call sendToServer;
 [_UID, _UID, "Vest", "STRING"] call sendToServer;
 [_UID, _UID, "Backpack", "STRING"] call sendToServer;
+[_UID, _UID, "HeadGear", "STRING"] call sendToServer;
+[_UID, _UID, "Goggles", "STRING"] call sendToServer;
 
 // Wait on these as we need them present to fit in everything they had on them
 waitUntil {!isNil "uniformLoaded"};		
 waitUntil {!isNil "vestLoaded"};
 waitUntil {!isNil "backpackLoaded"};
+waitUntil {!isNil "headgearLoaded"};
+waitUntil {!isNil "gogglesLoaded"};
 
 [_UID, _UID, "AssignedItems", "ARRAY"] call sendToServer;
 [_UID, _UID, "MagazinesWithAmmoCount", "ARRAY"] call sendToServer;
@@ -53,9 +57,6 @@ waitUntil {!isNil "handgunLoaded"};
 [_UID, _UID, "PrimaryMagazine", "ARRAY"] call sendToServer;
 [_UID, _UID, "SecondaryMagazine", "ARRAY"] call sendToServer;
 [_UID, _UID, "HandgunMagazine", "ARRAY"] call sendToServer;
-
-[_UID, _UID, "HeadGear", "STRING"] call sendToServer;
-[_UID, _UID, "Goggles", "STRING"] call sendToServer;
 
 [_UID, _UID, "Hunger", "NUMBER"] call sendToServer;
 [_UID, _UID, "Thirst", "NUMBER"] call sendToServer;
