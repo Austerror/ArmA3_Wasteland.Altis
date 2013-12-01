@@ -52,6 +52,7 @@ switch (_lockState) do {
 				sleep 1;
 				_currObject setVariable ["objectLocked", true, true];
 				_currObject setVariable ["ownerId", _uid, true];
+				_currObject setVariable ["lockDate", date, true];
 				_currObject addEventHandler ["GetIn", { player call fn_gearMenuChecks; }];
 				2 cutText ["", "PLAIN DOWN", 1];
 				R3F_LOG_mutex_local_verrou = false;
@@ -93,6 +94,7 @@ switch (_lockState) do {
 				if (_iteration >= _totalDuration) exitWith { // Sleep a little extra to show that lock has completed
 					sleep 1;
 					_currObject setVariable ["objectLocked", false, true];
+					_currObject setVariable ["lockDate", nil, true];
 					//_currObject setVariable ["ownerId", "", true];
 					_currObject removeEventHandler ["GetIn", 0];
 					2 cutText ["", "PLAIN DOWN", 1];
