@@ -6,7 +6,7 @@
 
 if (isDedicated) exitWith {};
 
-//[] execVM "client\functions\bannedNames.sqf";
+[] execVM "client\functions\bannedNames.sqf";
 
 showPlayerIcons = true;
 mutexScriptInProgress = false;
@@ -42,7 +42,7 @@ player call compile preprocessFileLineNumbers "client\functions\clientCompile.sq
 
 //Player setup
 player call playerSetup;
-//waitUntil {scriptDone _playerSetupScript};
+
 // Player saving - Load from iniDB
 
 positionLoaded = 0;
@@ -56,12 +56,6 @@ waitUntil {positionLoaded == 1};
 
 // iniDB stuff end
 
-// Territory system enabled?
-//if (count (call config_territory_markers) > 0) then {
-//	territoryActivityHandler = "territory\client\territoryActivityHandler.sqf" call mf_compile;
-//	[] execVM "territory\client\createCaptureTriggers.sqf";
-//};
-
 // Find out if the player has been moved by the persistence system
 _playerWasMoved = player getVariable ["playerWasMoved", 0];
 
@@ -73,37 +67,19 @@ player addEventHandler ["Killed", { _this spawn onKilled }];
 //Setup player menu scroll action.
 [] execVM "client\clientEvents\onMouseWheel.sqf";
 
-// Taken from commented out block below
-"currentDate" addPublicVariableEventHandler {[] call timeSync};
-"messageSystem" addPublicVariableEventHandler {[] call serverMessage};
-
-[] execVM "client\functions\initSurvival.sqf";
-[] execVM "client\systems\hud\playerHud.sqf";
-
-// If we've got a position from the player save system, don't go through playerSpawn
-if (_playerWasMoved == 0) then {
-	thirstLevel = 100;
-	hungerLevel = 100;
-	true spawn playerSpawn;
-} else {
-	player switchMove "";
-};
-// ************************************
-// Start Player Saves.
-[] execVM "server\functions\playerSaves.sqf";
-player allowDamage true;
-// *******************
-// Prevent quick logging
-[] execVM "custom\preventLog.sqf";
-//**********************
-//*********Setup Key Handler
+//Setup Key Handler
 waituntil {!(IsNull (findDisplay 46))};
 (findDisplay 46) displaySetEventHandler ["KeyDown", "_this call onKeyPress"];
-// *************************
+
+"currentDate" addPublicVariableEventHandler {[] call timeSync};
+"messageSystem" addPublicVariableEventHandler {[] call serverMessage};
 "clientMissionMarkers" addPublicVariableEventHandler {[] call updateMissionsMarkers};
 "clientRadarMarkers" addPublicVariableEventHandler {[] call updateRadarMarkers};
 "compensateNegativeScore" addPublicVariableEventHandler { (_this select 1) call removeNegativeScore };
+
 //client Executes
+[] execVM "client\functions\initSurvival.sqf";
+[] execVM "client\systems\hud\playerHud.sqf";
 [] execVM "client\functions\createTownMarkers.sqf";
 [] execVM "client\functions\playerTags.sqf";
 [] execVM "client\functions\groupTags.sqf";
@@ -113,7 +89,26 @@ if (isNil "FZF_IC_INIT") then
 {
 	call compile preprocessFileLineNumbers "client\functions\newPlayerIcons.sqf";
 };
+
+// If we've got a position from the player save system, don't go through playerSpawn
+if (_playerWasMoved == 0) then {
+	thirstLevel = 100;
+	hungerLevel = 100;
+	true spawn playerSpawn;
+} else {
+	player switchMove "";
+	deleteDBFile = false;
+	doPlayerSaves = true;
+};
+
 [] spawn FZF_IC_INIT;
+
+// Load Player Saves.
+execVM "server\functions\playerSaves.sqf";
+player allowDamage true;
+
+// Prevent quick logging
+[] execVM "custom\preventLog.sqf";
 
 {
 	if (isPlayer _x && {!isNil ("addScore_" + (getPlayerUID _x))}) then
@@ -124,12 +119,3 @@ if (isNil "FZF_IC_INIT") then
 
 player allowDamage true;
 [] execVM "addons\fpsFix\vehicleManager.sqf";
-/*************************************************************************************
-"pvar_teamKillList" addPublicVariableEventHandler {[] call updateTeamKiller};
-"publicVar_teamkillMessage" addPublicVariableEventHandler {if (local (_this select 1)) then { [] spawn teamkillMessage }};
-
-//waitUntil {playerSetupComplete == true};
-[] execVM "client\functions\createGunStoreMarkers.sqf";
-[] execVM "client\functions\createGeneralStoreMarkers.sqf";
-[] execVM "client\functions\createVehicleStoreMarkers.sqf";
-*************************************************************************************/

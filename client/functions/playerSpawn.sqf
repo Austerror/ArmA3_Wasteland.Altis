@@ -16,7 +16,16 @@ player setPosATL [7837.37,7627.14,0.00230217];
 player setDir 333.429;
 //             
 
-[] execVM 'client\functions\spawnAction.sqf'";
+titleText ["Loading...", "BLACK OUT", 0.00001];
 
+private ["_handle"];
+true spawn client_respawnDialog;
+
+waitUntil {respawnDialogActive};
+
+while {respawnDialogActive} do {
+	titleText ["", "BLACK OUT", 0.00001];
+};
 sleep 0.1;
+titleText ["", "BLACK IN", 0.00001];
 playerSpawning = false;

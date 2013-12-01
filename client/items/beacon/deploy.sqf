@@ -43,7 +43,8 @@ if (_success) then {
 	_beacon setVariable ['ownerName', name player, true];
 	_beacon setVariable ['ownerUID', _uid, true];
     _beacon setVariable ['packing', false, true];
-    _beacon setVariable ['groupOnly', false, true];    
+    //_beacon setVariable ['groupOnly', false, true];    
+    _beacon setVariable ['groupOnly', true, true];    
     {
         if (_x getVariable ["ownerUID",""] == _uid) exitWith {
             pvar_spawn_beacons set [_forEachIndex, "removeMe"];

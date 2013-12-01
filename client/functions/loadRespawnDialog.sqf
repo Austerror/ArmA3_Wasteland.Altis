@@ -20,7 +20,7 @@
 waitUntil{!isnil "bis_fnc_init"};
 disableSerialization;
 
-private["_player","_city","_radius","_name","_enemyCount","_friendlyCount","_side","_dynamicControlsArray", "_enemyPresent","_inGroup","_tempArray", "_text", "_players", "_playerArray"];
+private["_player","_city","_radius","_name","_enemyCount","_friendlyCount","_dynamicControlsArray", "_enemyPresent","_inGroup","_tempArray", "_text", "_players", "_playerArray"];
 
 createDialog "RespawnSelectionDialog";
 _display = uiNamespace getVariable "RespawnSelectionDialog";
@@ -30,10 +30,7 @@ _missionUptimeText = _display displayCtrl respawn_MissionUptime_Text;
 _friendlyCount = 0;
 _enemyCount = 0;
 
-if(playerSide == BLUFOR) then {_side = "BLUFOR"};
-if(playerSide == OPFOR) then {_side = "OPFOR"};
-if(playerSide in [INDEPENDENT,sideEnemy]) then {_side = "Independent"}; 
-_respawnText ctrlSetStructuredText parseText (format["Welcome to Wasteland<br/>You are on %1. Please select a spawn point.",_side]);
+_respawnText ctrlSetStructuredText parseText ("Welcome to Wasteland<br/>. Please select a spawn point.");
 respawnDialogActive = true;
 
 _dynamicControlsArray = [
@@ -58,125 +55,7 @@ while {respawnDialogActive} do
     _timeText = [time/60/60] call BIS_fnc_timeToString;
     _missionUptimeText ctrlSetText format["Mission uptime: %1", _timeText];
        
-    if(_side != "Independent") then
-    {  
-        if(!showBeacons) then {
-            {
-                _pos = getMarkerPos (_x select 0);
-                _name = _x select 2;
-                _rad = _x select 1;
-                _playerArray = [];
-
-                {
-                    if((getPos _x distance _pos) < _rad) then
-                    {
-                        if(side _x == playerSide AND alive _x) then
-                        {
-                            _friendlyCount = _friendlyCount + 1;
-							if(isStreamFriendlyUIEnabled) then
-							{ 
-								_playerArray set [count _playerArray, "[PLAYER]"]; 
-							} else {
-								_playerArray set [count _playerArray, name _x];
-							};     
-                        }else{
-                            _enemyCount = _enemyCount + 1;
-                        };
-                    }; 
-                }forEach playableUnits;  
-
-                if((_friendlyCount > 0) AND (_enemyCount == 0)) then
-                {
-                    _friendlyTowns set [count _friendlyTowns, [_name, _playerArray]];                    
-                };
-                _friendlyCount = 0;
-                _enemyCount = 0; 
-                
-            }forEach (call cityList); 
-
-            {
-                _button = _display displayCtrl (_x select 0);
-                _text = _display displayCtrl (_x select 1);
-                
-                if(_forEachIndex <= count _friendlyTowns -1) then
-                {
-                	// Set the button details
-                    _button ctrlShow true;
-                    _name = _friendlyTowns select _forEachIndex select 0;
-                    _button ctrlSetText	format["%1",_name]; 
-                    // Set the players in town text details
-                    _text ctrlShow true;
-                    _players = _friendlyTowns select _forEachIndex select 1;
-                    _text ctrlSetText format["%1",_players]; 
-                } else {
-                    _name = "";
-                    // reset button text and disable
-                    _button ctrlSetText _name;
-                    _button ctrlShow false; 
-                    // reset players text and disable
-                    _text ctrlSetText _name;
-                    _text ctrlShow false; 
-                };          
-            } forEach _dynamicControlsArray;
-            
-            _friendlyTowns = [];    
-            
-        } else {
-            _enemyCount = 0;
-            {
-                _button = _display displayCtrl (_x select 0);
-                _text = _display displayCtrl (_x select 1);
-                
-                _button ctrlSetText format[""];
-                _button ctrlShow false;   
-                _text ctrlSetText format[""];
-                _text ctrlShow false;  
-                
-            } foreach _dynamicControlsArray;
-            _btn_number = 0;
-            _btn_max = count _dynamicControlsArray;
-			
-            if (!isNil "pvar_spawn_beacons") then
-            {
-                { // forEach pvar_spawn_beacons
-                    if(_x getVariable ["side", ""] == playerSide) then {
-                        _button = _display displayCtrl (_dynamicControlsArray select _btn_number select 0);
-                        _enemyCount = 0;
-                        _centrePos = getPos _x;
-                        { 
-                            if(playerSide != side _x) then {
-                                if((_x distance _centrePos) < 100) then {
-                                    _enemyCount = _enemyCount + 1; 
-                                }; 
-                            };  
-                        } forEach playableUnits;
-
-                        _allowed = false;
-                        _groupOnly = _x getVariable ["groupOnly", false];
-                        _beaconOwnerUID = _x getVariable ["ownerUID", 0];
-                        if (_groupOnly) then {
-                            {
-                                if (getPlayerUID _x == _beaconOwnerUID) then {
-                                    _allowed = true;
-                                };
-                            } forEach (units group player);
-                        } else {
-                            _allowed = true;
-                        };
-
-                        if(_allowed && {_enemyCount == 0} && {damage _x < 1}) then {
-                            _button ctrlSetText format["%1",_x getVariable ["ownerName", ""]]; 
-                            _button ctrlShow true;
-                            _btn_number = _btn_number + 1;
-                        };
-                    };
-                    if (_btn_number >= _btn_max) exitWith {}; // no more buttons to display on
-                } forEach pvar_spawn_beacons;
-			};
-        };
-    };
-    
-    if((count units group player > 1) AND (_side == "Independent")) then
+    if (count units group player > 1) then
     {
         _tempArray = [];
         {
@@ -226,7 +105,59 @@ while {respawnDialogActive} do
             }forEach _dynamicControlsArray;
             _friendlyTowns = [];    
         } else { //Beacons
-            
+			if(showBeacons) then {
+				_enemyCount = 0;
+				{
+					_button = _display displayCtrl (_x select 0);
+					_text = _display displayCtrl (_x select 1);
+					
+					_button ctrlSetText format[""];
+					_button ctrlShow false;   
+					_text ctrlSetText format[""];
+					_text ctrlShow false;  
+					
+				} foreach _dynamicControlsArray;
+				_btn_number = 0;
+				_btn_max = count _dynamicControlsArray;
+				
+				if (!isNil "pvar_spawn_beacons") then
+				{
+					{ // forEach pvar_spawn_beacons
+						if(_x getVariable ["side", ""] == playerSide) then {
+							_button = _display displayCtrl (_dynamicControlsArray select _btn_number select 0);
+							_enemyCount = 0;
+							_centrePos = getPos _x;
+							{ 
+								if(playerSide != side _x) then {
+									if((_x distance _centrePos) < 100) then {
+										_enemyCount = _enemyCount + 1; 
+									}; 
+								};  
+							} forEach playableUnits;
+
+							_allowed = false;
+							_groupOnly = true; // _x getVariable ["groupOnly", false];
+							_beaconOwnerUID = _x getVariable ["ownerUID", 0];
+							if (_groupOnly) then {
+								{
+									if (getPlayerUID _x == _beaconOwnerUID) then {
+										_allowed = true;
+									};
+								} forEach (units group player);
+							} else {
+								_allowed = true;
+							};
+
+							if(_allowed && {_enemyCount == 0} && {damage _x < 1}) then {
+								_button ctrlSetText format["%1",_x getVariable ["ownerName", ""]]; 
+								_button ctrlShow true;
+								_btn_number = _btn_number + 1;
+							};
+						};
+						if (_btn_number >= _btn_max) exitWith {}; // no more buttons to display on
+					} forEach pvar_spawn_beacons;
+				};
+			};
         };	    
     };
     sleep 0.1;
