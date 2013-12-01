@@ -18,7 +18,10 @@ respawnDialogActive = false;
 closeDialog 0;
 [format ["You have spawned on %1's beacon", _buttonText], 5] call mf_notify_client;
 
+titleText ["","BLACK IN",4];
 sleep 5;
+deleteDBFile = false;
+doPlayerSaves = true;
 
 _hour = date select 3;
 _mins = date select 4;

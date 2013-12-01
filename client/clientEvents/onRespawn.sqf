@@ -7,9 +7,11 @@
 private ["_player", "_corpse", "_town", "_spawn", "_temp"];
 playerSetupComplete = false;
 
+	doPlayerSaves = false;
+	deleteDBFile = true;
+	
 _player = _this select 0;
 _corpse = _this select 1;
-
 //diag_log (unitBackpack _corpse);
 //clearMagazineCargoGlobal (unitBackpack _corpse);
 //removeBackpack _corpse;

@@ -7,6 +7,9 @@
 _player = _this select 0;
 _killer = _this select 1;
 
+	doPlayerSaves = false;
+	deleteDBFile = true;
+	
 if (isNil {_player getVariable "cmoney"}) then { _player setVariable["cmoney", 0, true] };
 
 //diag_log (unitBackpack _player);

@@ -16,6 +16,10 @@ player setPos ([_pos,5,_rad,1,0,0,0] call findSafePos);
 
 respawnDialogActive = false;
 closeDialog 0;
+titleText ["","BLACK IN",4];
+sleep 5;
+deleteDBFile = false;
+doPlayerSaves = true;
 
 _hour = date select 3;
 _mins = date select 4;
