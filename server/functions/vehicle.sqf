@@ -136,13 +136,13 @@ while {_run} do
 	
 	
 	// Check if the vehicle is deserted, or if something was taken from it, and that it's not being towed or moved.
-	
+	_isLocked = _unit getVariable "objectLocked";
 	if (_deserted > 0 && 
 	   {getPosASL _unit distance _position > 10 || _unit getVariable ["itemTakenFromVehicle", false]} &&
 	   {{alive _unit} count crew _unit == 0} &&
 	   {isNull (_unit getVariable ["R3F_LOG_est_transporte_par", objNull])} && 
 	   {isNull (_unit getVariable ["R3F_LOG_est_deplace_par", objNull])} &&
-	   {(_unit getVariable "objectLocked") != true}
+	   {!(_islocked)}
 	   ) then 
 	{
 		if (_desertedTimeout == 0) then {
