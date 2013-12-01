@@ -8,6 +8,14 @@ while {true} do {
 	{
 		_var = _x getVariable "objectLocked";
 		_ownerId = _x getVariable "ownerId";
+		_lockDate = _x getVariable "lockDate";
+		if (isnil "_lockDate") then {
+			_lockDate = date;
+		} else {
+			if (count _lockDate < 5) then {
+				_lockDate = date;
+			};
+		}; 
 		if(!isNil "_ownerId" && (alive _x)) then {
 			_classname = typeOf _x;
 			// addition to check if the classname matches the building parts
@@ -44,6 +52,7 @@ while {true} do {
 				["Objects" call PDB_databaseNameCompiler, _objSaveName, "weapons", _weapons] call iniDB_write;
 				["Objects" call PDB_databaseNameCompiler, _objSaveName, "magazines", _magazines] call iniDB_write;
 				["Objects" call PDB_databaseNameCompiler, _objSaveName, "owner", _ownerId] call iniDB_write;
+				["Objects" call PDB_databaseNameCompiler, _objSaveName, "lockdate", _lockDate] call iniDB_write;
 
 				PersistentDB_ObjCount = PersistentDB_ObjCount + 1;
 			//};
