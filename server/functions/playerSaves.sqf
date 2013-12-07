@@ -67,7 +67,7 @@ while {true} do {
 		_uid = getPlayerUID player;
 		diag_log "################################";
 		diag_log format ["##### Delete DB File Called For %1", _uid];
-		[_uid, _uid] call fn_DeleteFromDB;
+		_uid call fn_DeleteFromDB;
 		deleteDBFile = false;
 	};
 

@@ -14,8 +14,7 @@ saveToDB = compile _saveToDB;
 
 _deleteFromDB =
 "
-	_array = _this;
-	_uid = _array select 1;
+	_uid = _this;
 	_uid call iniDB_delete;
 ";
 
@@ -59,6 +58,6 @@ accountExists = compile _accountExists;
 
 "deleteFromDB" addPublicVariableEventHandler 
 {
-	(_this select 1) spawn deleteFromDB;
+	_this call iniDB_delete;
 };
 
