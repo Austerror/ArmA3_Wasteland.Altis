@@ -203,10 +203,10 @@ vehicleAddition =
 	"optic_Holosight_smg",
 	"acc_flashlight",
 	"acc_pointer_IR",
-	"Medikit",
-	"Medikit",
+	//"Medikit",
+	//"Medikit",
 	"FirstAidKit",
-	"ToolKit"
+	//"ToolKit"
 ];
 
 vehicleAddition2 =
