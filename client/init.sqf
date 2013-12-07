@@ -77,6 +77,9 @@ waituntil {!(IsNull (findDisplay 46))};
 "clientRadarMarkers" addPublicVariableEventHandler {[] call updateRadarMarkers};
 "compensateNegativeScore" addPublicVariableEventHandler { (_this select 1) call removeNegativeScore };
 
+player setVariable["isDrinking", false, true];
+player setVariable["isEating", false, true];
+
 //client Executes
 [] execVM "client\functions\initSurvival.sqf";
 [] execVM "client\systems\hud\playerHud.sqf";

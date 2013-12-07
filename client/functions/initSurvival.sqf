@@ -39,8 +39,10 @@ mf_survival_handle1 = [] spawn {
 	while {true} do {
 		sleep TIME_DELTA;
 		waitUntil {!respawnDialogActive && alive player};
-		if (round random 1 == 0) then _decrementHunger;
-		if (round random 1 == 0) then  _decrementThirst;
+		_isDrinking = player getVariable "isDrinking";
+		_isEating = player getVariable "isEating";
+		if ((round random 1 == 0) && (!_isEating)) then _decrementHunger;
+		if ((round random 1 == 0) && (!_isDrinking)) then  _decrementThirst;
 		switch (true) do {
 			case (hungerLevel <= 0): {
 				_health = (damage player) + HEALTH_DELTA;

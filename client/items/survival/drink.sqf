@@ -23,10 +23,11 @@ _hasFailed = {
 	};
 	[_failed, _text];
 };
-
+player setVariable["isDrinking", true, true];
 _success = [5, ANIMATION, _hasFailed, []] call mf_util_playUntil;
 if (_success) then {
 	thirstLevel = (thirstLevel + _this) min 100;
 	["Your thirst has eased", 5] call mf_notify_client;
 };
+player setVariable["isDrinking", false, true];
 _success;

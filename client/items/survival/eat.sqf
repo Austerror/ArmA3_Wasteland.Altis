@@ -23,10 +23,11 @@ _checks = {
 	};
 	[_failed, _text];
 };
-
+player setVariable["isEating", true, true];
 _success = [5, ANIMATION, _checks, []] call mf_util_playUntil;
 if (_success) then {
 	hungerLevel = (hungerLevel + _this) min 100;
 	["Your hunger has eased", 5] call mf_notify_client;
 };
+player setVariable["isEating", false, true];
 _success;
