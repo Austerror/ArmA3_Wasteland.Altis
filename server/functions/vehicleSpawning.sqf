@@ -76,7 +76,8 @@ _createRandomVehicle =
 
 {
 	//diag_log format ["Waiting vehicle spawn #%1", _forEachIndex + 1];
-	waitUntil {scriptDone _x};
+	//waitUntil {scriptDone _x};
+	sleep 0.1;
 } forEach _spawnedVehicles;
 
 diag_log format["WASTELAND - Vehicle spawning completed - %1 Vehicles Spawned on Altis. Total in game vehicles = %2",_counter,_vehiclesInGame];

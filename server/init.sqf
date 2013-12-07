@@ -72,6 +72,7 @@ execVM "persistence\world\init.sqf";
 diag_log "[INFO] A3W loot spawning is ENABLED";
 execVM "server\spawning\playerSpawnLoot.sqf"; // Replaces "server\spawning\lootCreation.sqf"
 
+diag_log "[INFO] Syncing time";
 sleep 5;  // Make sure the server had time to get the time.
 [] execVM "server\functions\serverTimeSync.sqf";
 
@@ -81,28 +82,36 @@ diag_log "WASTELAND SERVER - Initializing Missions";
 sleep 5;
 [] execVM "server\missions\mainMissionController.sqf";
 
-diag_log "WASTELAND SERVER - Initializing Server Spawning";
-
-_heliSpawn = [] execVM "server\functions\staticHeliSpawning.sqf";
-waitUntil {sleep 0.1; scriptDone _heliSpawn};
-
-_vehSpawn = [] execVM "server\functions\vehicleSpawning.sqf";
-waitUntil {sleep 0.1; scriptDone _vehSpawn};
-
-_planeSpawn = [] execVM "server\functions\planeSpawning.sqf";
-waitUntil {sleep 0.1; scriptDone _planeSpawn};
-
-_boatSpawn = [] execVM "server\functions\boatSpawning.sqf";
-waitUntil {sleep 0.1; scriptDone _boatSpawn};
-
-_objSpawn = [] execVM "server\functions\objectsSpawning.sqf";
-waitUntil {sleep 0.1; scriptDone _objSpawn};
-
-_boxSpawn = [] execVM "server\functions\boxSpawning.sqf";
-waitUntil {sleep 0.1; scriptDone _boxSpawn};
-
+diag_log "[INFO] Set new player hooks";
 // Hooks for new players connecting, in case we need to manually update state
 onPlayerConnected "[_id, _name] execVM 'server\functions\onPlayerConnected.sqf'";
 
+diag_log "WASTELAND SERVER - Initializing Server Spawning";
+
+diag_log "[INFO] Spawn helis";
+_heliSpawn = [] execVM "server\functions\staticHeliSpawning.sqf";
+waitUntil {sleep 0.1; scriptDone _heliSpawn};
+
+diag_log "[INFO] Spawn vehicles";
+_vehSpawn = [] execVM "server\functions\vehicleSpawning.sqf";
+waitUntil {sleep 0.1; scriptDone _vehSpawn};
+
+diag_log "[INFO] Spawn planes";
+_planeSpawn = [] execVM "server\functions\planeSpawning.sqf";
+waitUntil {sleep 0.1; scriptDone _planeSpawn};
+
+diag_log "[INFO] Spawn boats";
+_boatSpawn = [] execVM "server\functions\boatSpawning.sqf";
+waitUntil {sleep 0.1; scriptDone _boatSpawn};
+
+diag_log "[INFO] Spawn objects";
+_objSpawn = [] execVM "server\functions\objectsSpawning.sqf";
+waitUntil {sleep 0.1; scriptDone _objSpawn};
+
+diag_log "[INFO] Spawn boxes";
+_boxSpawn = [] execVM "server\functions\boxSpawning.sqf";
+waitUntil {sleep 0.1; scriptDone _boxSpawn};
+
+diag_log "[INFO] Initialise cleanup";
 // Start clean-up loop
 [] execVM "server\WastelandServClean.sqf";
