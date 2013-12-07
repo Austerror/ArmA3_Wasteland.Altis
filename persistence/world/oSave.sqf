@@ -9,6 +9,7 @@ while {true} do {
 		_var = _x getVariable "objectLocked";
 		_ownerId = _x getVariable "ownerId";
 		_lockDate = _x getVariable "lockDate";
+		_vDamage = damage _x;
 		if (isnil "_lockDate") then {
 			_lockDate = date;
 		} else {
@@ -53,6 +54,7 @@ while {true} do {
 				["Objects" call PDB_databaseNameCompiler, _objSaveName, "magazines", _magazines] call iniDB_write;
 				["Objects" call PDB_databaseNameCompiler, _objSaveName, "owner", _ownerId] call iniDB_write;
 				["Objects" call PDB_databaseNameCompiler, _objSaveName, "lockdate", _lockDate] call iniDB_write;
+				["Objects" call PDB_databaseNameCompiler, _objSaveName, "damage", _vDamage] call iniDB_write;
 
 				PersistentDB_ObjCount = PersistentDB_ObjCount + 1;
 			//};

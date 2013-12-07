@@ -18,20 +18,24 @@ for "_i" from 0 to (_objectscount - 1) do
 	_magazines = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "magazines", "ARRAY"] call iniDB_read;
 	_ownerId = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "owner", "STRING"] call iniDB_read;
 	_lockDate = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "lockdate", "ARRAY"] call iniDB_read;
+	_vDamage = ["Objects" call PDB_databaseNameCompiler, _objSaveName, "damage", "NUMBER"] call iniDB_read;
 	if (isnil "_lockDate") then {
 		_lockDate = date;
 	} else {
 		if (count _lockDate == 0) then {
 			_lockDate = date;
 		};
-	}; 
-	// to do! check if vehicle _lockDate is > 5 days (or whatever time limit it should be).
+	};
+	if (isnil "_vDamage") then {
+		_vDamage = 0;
+	};
 	if(!isNil "_objSaveName" && !isNil "_class" && !isNil "_pos" && !isNil "_dir" && !isNil "_supplyleft" && (_ownerId != "")) then 
 	{
 		if ((dateToNumber date - dateToNumber _lockDate) < 0.02) then { // approx 7 days (just over)
-			_obj = createVehicle [_class,_pos, [], 0, "CAN COLLIDE"];
+			_obj = createVehicle [_class,_pos, [], 0, "None"];
 			_obj setPosASL _pos;
 			_obj setVectorDirAndUp _dir;
+			_obj setDamage _vDamage;
 
 			if(_class == "Land_Sacks_goods_F") then 
 			{
