@@ -205,7 +205,7 @@ vehicleAddition =
 	"acc_pointer_IR",
 	//"Medikit",
 	//"Medikit",
-	"FirstAidKit",
+	"FirstAidKit"
 	//"ToolKit"
 ];
 
